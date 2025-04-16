@@ -1,0 +1,45 @@
+Optimální podněty pro obchodníky - AI infrastruktura
+1. Podněty pro pilotní projekt
+Východisko  plánujeme implementovat pouze 3 typologicky odlišné podněty:
+-	„Povinnostní“ podnět/úkol - existuje jasná algoritmizace (pravidlo) pro jeho vygenerování a současně nepřipouštíme možnost „nezobrazení“ takového podnětu.
+-	Podnět vyplývající z pokročilé datové analýzy - pro identifikaci podnětu je potřeba využít náročnější nástroje datové analýzy. Stále ale zůstává velmi vysoká míra „determinismu“ (v podstatě jsou to „tvrdá data“, ze kterých očekáváme spolehlivý výstup)!
+-	Podnět využívající jazykový model - typicky zpracování nestrukturovaný a textových informací
+1.1. Povinnostní podnět
+Název podnětu: POVINNÁ PRODEJNÍ AKCE
+Popis/účel podnětu: 
+-	Akce prodejní podpory, kterou musí OZ zákazníkovi nabídnout, pokud se mu při návštěvě vygeneruje.
+Algoritmizace:
+-	Existuje jednoznačné zadání prodejní akce - např. sleva na „CASTROL 5W-40 4 lt“ ve výši 25% na objednávku v minimální výši 5000,- Kč.
+-	V ERP DF Partner jsou nastavené jednoznačné podmínky, které musí být splněny, aby se akce při návštěvě konkrétního zákazníka vygenerovala - například:
+-	Zákazník je součástí kanálu „XY“
+-	Zákazník má odběr produktu/podproduktu/značky/artiklu menší než ???,- Kč/Lt/Ks za období Od-Do
+-	Atd. atp.
+1.2. Podnět vyplývající z pokročilé datové analýzy
+Název podnětu: NEODEBÍRANÉ ARTIKLY
+Popis/účel podnětu: 
+-	Identifikace toho, které z neodebíraných artiklů zákazníka a v jakém pořadí je žádoucí mu nabídnout a proč? 
+Algoritmizace:
+-	Je triviální identifikovat neodebírané artikly. Na tomto typu podnětu je náročné zvolit správné nástroje pro výběr toho, které z neodebíraných artiklů je vhodné nabízet jako první k objednání zákazníkovi.
+-	Velmi zjednodušený popis postupu vytvoření podnětu (bude doplněno):
+1.	Identifikace neodebíraných artiklů
+Seznam všech artiklů z tabulky „Listing kanálu“ (do kterého je zákazník zařazen), které uvedený zákazník neodebral za uplynulých 365 dnů (zdroj tabulka „Plán prodejů“).  
+2.	Rozdělení artiklů dle produktů
+“Produktem“ se v terminologii DF Partner rozumí příslušná sortimentní kategorie (Ostřikovače, Oleje, Autodoplňky, Autopříslušenství, Autochemie…)
+3.	Seřazení artiklů dle jejich významů v rámci produktu
+V rámci každého produktu mají jednotlivé artikly přiřazený parametr významu (10, 5, 1, 0), přičemž hodnota udává, jak je artikl obchodně „důležitý“ (vyšší hodnota = vyšší význam)
+4.	Seřazení artiklů dle prodejního potenciálu
+V rámci stejné hodnoty významu se artikly seřadí dle výše příspěvku kanálu (hrubá marže), který je realizován za uplynulý rok za celý prodejní kanál zákazníka (zdroj tabulka „Plán prodejů“).
+5.	Výběr produktů vhodných k nabídce
+Dle definovaných pravidel (např. posloupnost zalistování jednotlivých produktů) se identifikují produkty, ze kterých se budou vybírat artikly vhodné k nabídce zákazníkovi.
+6.	Příprava výsledného podnětu
+Ze skupiny vhodných produktů se vyberou konkrétní artikly, které budou předmětem podnětu. V některém případě to mohou být artikly ze stejného produktu, v jiném z různých produktů.
+7.	Rozhodnutí o zobrazení podnětu obchodníkovi
+Pokud bude vyhodnoceno, že již existuje nadlimitní počet „prioritnějších“ podnětů typu „Podnět k nabídce“, podnět vůbec nebude vygenerován. Je nežádoucí obchodníka (a samozřejmě i zákazníka) zahlcovat podněty!
+1.3. Využití jazykového modelu na podporu vygenerovaných podnětů
+Název podnětu: ROZŠÍŘENÍ INFORMACÍ K VYGENEROVANÝM PODNĚTŮM
+Popis/účel podnětu: 
+-	Poskytnout užitečné doplňující informace k vygenerovaným podnětům 
+-	Součástí vygenerovaného podnětu by měly být navazující akce, díky kterým má obchodník možnost si vyžádat: 
+▫	  Stručné vysvětlení, proč byl podnět navržen - jak podnět pomůže zlepšit situaci u zákazníka (bylo by vhodné si za tímto účelem „zalogovat“ data, na základě kterých byl podnět vybrán).
+▫	  Rozšíření nabídky v rámci tématu podnětu - kdy obchodník v průběhu jednání zjistí, že zákazníka téma zajímá a má zájem o další podobné artikly. Zde je otázka, jestli nemá AI „preventivně“ vygenerovat „všechny“ podněty ke každému tématu, ale do prvního návrhu zobrazit jenom ty prioritní a následně mít „v záloze“ další na vyžádání (toto lze řešit i v rámci front-endu obchodníka, kdy je bude mít rovnou k dispozici, pouze skryté v rámci formuláře)
+▫	  Kontextovou podporu - jde o případ, kdy obchodník u podnětu potřebuje pomoci s přesvědčením zákazníka. AI může v takovém případě nabídnout související nástroje prodejní podpory (prodejní akci, pomůcky prodejní podpory nebo alespoň vhodné prodejní argumenty).
