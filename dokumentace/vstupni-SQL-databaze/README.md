@@ -1,0 +1,1 @@
+# Zde jsou základní informace o vstupní raw dtabázi projektu. Slouží pro úvodní porozumní datm pro vytváení Data Science ešení.

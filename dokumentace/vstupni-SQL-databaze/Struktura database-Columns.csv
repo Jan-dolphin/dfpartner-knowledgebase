@@ -1,0 +1,35 @@
+﻿table;technical_name;type;common_name;relations
+CENSKUP;IDCENSKUP;Integer;ID Prodejní kanál;primární klíč
+CENSKUP;CEN_SKUP;Varchar(10);Název obchodního kanálu;
+CENSKUPADD;IDCENSKUPADD;Integer;ID Doplňující údaj ke kanálu;primární klíč
+CENSKUPADD;IDCENSKUP;Integer;ID Prodejní kanál;vazba na CENSKUP
+CENSKUPADD;IDUZIVATEL;Integer;ID Key account manager (KAM);"vazba na UZIVATEL, Zkratka ""KAM"" = obchodník pro klíčové zákazníky (kdo jedná na centrále, nastavuje klíčové parametry jako jsou povolené artikly, prodejní plány, ceny, povolené prostředky prodejní podpory, limity pro objednávky atd.),"
+CENSKUPADD;VLNEAKTIVNI;Smallint;Neaktivní kanál;0 = ne (zobrazí aktivní kanály, tzn. ty, se kterými aktuálně pracujeme), 1 = ano (ukončené kanály ať už z důvodu ukončení projektu nebo koupené jinou sítí a zmigrované do ní)
+UZIVATEL;IDUZIVATEL;Integer;ID Uživatel;primární klíč
+UZIVATEL;KOD_UZIV;Varchar(20);Kód uživatele;Složené z prvního písmene jména a pak příjmení, vše bez diakritiky. V tomto poli jsou identicé hodnoty v CZ, SK a HU databázi.
+UZIVATEL;JMENO_UZIV;Varchar(100);Jméno a příjmení uživatele;Celé jméno a příjmení uživatele vč. diakritiky (pokud se jedná o zaměstnance), u externích uživatelů stanoveno ad-hoc
+XXLISTING;IDXXLISTING;Integer;ID Listing kanálu;primární klíč
+XXLISTING;IDCENSKUP;Integer;ID Prodejní kanál;vazba na CENSKUP
+XXLISTING;IDZBOZI;Integer;ID Zboží;vazba na ZBOZI
+XXLISTING;DTLISTINGOD;Datetime;Listing od;Od kdy je artikl platný v listingu kanálu (musí být vždy vyplněno)
+XXLISTING;DTLISTINGDO;Datetime;Listing do;Do kdy je artikl platný v listingu kanálu (pokud je prázdné, položka je v listingu aktivní)
+ZBOZI;IDZBOZI;Integer;ID Zboží;primární klíč
+ZBOZI;IDSKUPZBOZI;Integer;ID Produktu;vazba na SKUPZBOZI
+ZBOZI;VLTYP_SLOZ;Smallint;Druh zboží;1 = zboží, výrobky (primární zájem našeho zkoumání), ostatní hodnoty jsou majetek, služby atd. (toto v případě zboží vždy odfiltrováváme)
+ZBOZI;VLSTAVZBOZI ;Smallint;Stav zboží;0 = aktivní (zboží může být nabízeno, prodáváno, plánováno, skladováno …), 1 = neaktivní (projekt byl ukončen, zboží bylo nahrazeno novinkou atd., v těchto případech už ani není zboží skladem
+ZBOZI;CIS_ZBOZI;Varchar(30);Číslo zboží;V tomto poli jsou identicé hodnoty v CZ, SK a HU databázi.
+ZBOZI;NAZEV_ZBOZI;Varchar(255);Název zboží;
+ZBOZI;VLZBOZNITYP;Smallint;Zbožní typ;CASE ZBOZI.VLZBOZNITYP WHEN 0 THEN 'Neurčeno' WHEN 1 THEN 'Běžný' WHEN 2 THEN 'Zakázkový' WHEN 3 THEN 'Akční' WHEN 5 THEN 'Podpora' WHEN 6 THEN 'Benefit' END AS 'Zbožní typ' 
+ZBOZI;SKP;Varchar(20);Značka;
+ZBOZI;ROZMER_1;Decimal(19,5);Litráž;
+ZBOZI;MNMOTNOST;Decimal(19,5);Dopravní hmotnost;
+ZBOZIADD;IDZBOZIADD;Integer;ID Doplňující údaj ke Zboží;primární klíč
+ZBOZIADD;IDZBOZI;Integer;ID Zboží;vazba na ZBOZI
+ZBOZIADD;IDXXPODSKUPZBOZI;Integer;ID Podproduktu;vazba na XXPODSKUPZBOZI
+SKUPZBOZI;IDSKUPZBOZI;Integer;ID Produktu;primární klíč
+SKUPZBOZI;KOD_SKUP_ZBOZI;Varchar(20);Kód produktu;V tomto poli jsou identicé hodnoty v CZ, SK a HU databázi.
+SKUPZBOZI;NAZEV_SKUP_ZBOZI;Varchar(255);Název produktu;
+XXPODSKUPZBOZI;IDXXPODSKUPZBOZI;Integer;ID Podproduktu;primární klíč
+XXPODSKUPZBOZI;IDSKUPZBOZI;Integer;ID Produktu;vazba na SKUPZBOZI
+XXPODSKUPZBOZI;KOD_PODSKUPZBOZI;Varchar(20);Kód podproduktu;V tomto poli jsou identicé hodnoty v CZ, SK a HU databázi.
+XXPODSKUPZBOZI;NAZEV_PODSKUPZBOZI;Varchar(255);Název podproduktu;

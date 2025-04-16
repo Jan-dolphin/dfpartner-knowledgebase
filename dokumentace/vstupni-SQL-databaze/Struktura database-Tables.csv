@@ -1,0 +1,13 @@
+﻿common_name;technical_name;description;example_value;example_SQL
+Prodejní kanál;CENSKUP;Obchodní kanál pro dodací místa = seskupení podobných zákazníků, na které uplatňujeme stejnou obchodní politiku;EUROOIL;SELECT * FROM CENSKUP With(NoLock) WHERE CENSKUP.IDCENSKUP = 104
+;;(např. SHELL má pod sebou všechny čerpací stanice s těmito barvami, ČS privat má pod sebou nezávislé čerpací stanice (ať už jednotlivce nebo mikrosítě), SevisOsob seskupuje zákazníky zabývající se servisem vozidel atd.);;
+Prodejní kanál - doplňující informace;CENSKUPADD;Doplňující tabulka k tabulce CENSKUP;Zobrazí pouze aktivní kanály;SELECT * FROM CENSKUPADD With(NoLock) WHERE CENSKUPADD.VLNEAKTIVNI = 0
+;;Jsou tu informace např. jestli se jedná o aktivní kanál, přiřazené odpovědné osoby, spočtené náklady dopravy, minimální limity pro objednávku apod.;;
+Uživatel;UZIVATEL;Tabulka uživatelů (typicky zaměstnanci, ale mohou zde být i externí subjekty, které nám dodávají specifické služby).;Martin Daněk;SELECT * FROM UZIVATEL With(NoLock) WHERE UZIVATEL.IDUZIVATEL = 701
+Položka listingu kanálu;XXLISTING;Artikly zalistované v obchodním kanálu;Aktivní listing kanálu EUROOIL;SELECT * FROM XXLISTING With(NoLock) WHERE XXLISTING.IDCENSKUP = 104
+;;;;AND CONVERT(Date,GetDate()) BETWEEN XXLISTING.DTLISTINGOD AND ISNULL(XXLISTING.DTLISTINGDO,CONVERT(Date,GetDate()))
+Artikl;ZBOZI;Karta zboží (jsou zde jak výrobky a zboží, tak služby a majetek;Aktivní výrobky a zboží;SELECT * FROM ZBOZI With(NoLock) WHERE ZBOZI.VLTYP_SLOZ = 1 AND ZBOZI.VLSTAVZBOZI = 0
+Artikl - doplňujicí informace;ZBOZIADD;Doplňující tabulka k tabulce ZBOZI;"Doplňující informace k artiklu ""SHERON Letní ostřikovač 3 lt""";SELECT * FROM ZBOZIADD With(NoLock) WHERE ZBOZIADD.IDZBOZI = 15330
+;;(výrobní operace, technologický postup, celní sazby);;
+Produkt;SKUPZBOZI;Produkt = základní členění sortimentu;Zobrazí aktivní produkty;SELECT * FROM SKUPZBOZI With(NoLock) WHERE SKUPZBOZI.VLTYP_SLOZSZ = 1
+Podprodukt;XXPODSKUPZBOZI;Podprodukt = upřesnění v rámci produktu;Letní ostřikovače;SELECT * FROM XXPODSKUPZBOZI With(NoLock) WHERE XXPODSKUPZBOZI.KOD_PODSKUPZBOZI like 'LETNIOST'
